@@ -10,7 +10,7 @@
     minCardMinCostChainPart(n,M) retourne p
     n = nombre de sommets d'un DAG
     DAG = graphe dirigé sans cycle, ou ordre partiel
-    M[u,v] = coût de l'arc (u,v) ou -1 si inexistant.
+    M[u,v] = coût de l'arc (u,v) ou None si inexistant.
     hypothese: les sommets sont dans l'ordre topologique,
     donc si l'arc (u,v) existe alors u<v.
     p est un tableau qui décrit le partionnement,
@@ -26,10 +26,10 @@ def minCardMinCostChainPart(M):
     n = len(M)
     for u in range(n):
         assert len(M[u])==n
-        assert M[u][u]==-1
+        assert M[u][u]==None
     for v in range(n):
         for u in range(v):
-            assert M[v][u]==-1
+            assert M[v][u]==None
     #                           --- construire graphe bi-parti complet
     #                           --- extraire max poids des arcs
     maxWeight = 0
@@ -40,12 +40,12 @@ def minCardMinCostChainPart(M):
     #                           --- big = poids pour completer le graphe
     big = 1+n*maxWeight
     #                           --- B = graphe complet, inverser signe poids
-    B = [[(-big if M[u][v]==-1 else -M[u][v]) for v in range(n)] for u in range(n)]
+    B = [[(-big if M[u][v]==None else -M[u][v]) for v in range(n)] for u in range(n)]
     Mout,Min,val = maxWeightMatching(B)
     #                           --- enlever du couplage les arcs de poids big
     for u in range(n):
         v = Mout[u]
-        if M[u][v]==-1:
+        if M[u][v]==None:
             del Mout[u]
             del Min[v]
     #                           --- extraire les chemins
@@ -71,7 +71,7 @@ def printDot(M,p):
         f.write('%u [label="%i[%i]"]\n'%(u,u,p[u]))
     for u in range(n):
         for v in range(n):
-            if M[u][v]!=-1:
+            if M[u][v]!=None:
                 f.write('%i -> %i [label="%g"]\n'%(u,v,M[u][v]))
     f.write("}\n");
     f.close()
@@ -82,7 +82,7 @@ if __name__=='__main__':
     puis m lignes du format <u> <v> <weight of arc (u,v)>
     """
     n,m = map(int,raw_input().split())
-    M = [[-1 for v in range(n)] for u in range(n)]
+    M = [[None for v in range(n)] for u in range(n)]
     for i in range(m):
         t = raw_input().split()
         u       = int(t[0])
