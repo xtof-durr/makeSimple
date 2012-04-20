@@ -21,15 +21,15 @@
 
 from kuhnMunkres import *
 
-def minCardMinCostChainPart(M):
+def minCardMinCostChainPart(M, Empty=None):
     #                           --- vérifier hypothèses
     n = len(M)
     for u in range(n):
         assert len(M[u])==n
-        assert M[u][u]==None
+        assert M[u][u]==Empty
     for v in range(n):
         for u in range(v):
-            assert M[v][u]==None
+            assert M[v][u]==Empty
     #                           --- construire graphe bi-parti complet
     #                           --- extraire max poids des arcs
     maxWeight = 0
@@ -40,12 +40,12 @@ def minCardMinCostChainPart(M):
     #                           --- big = poids pour completer le graphe
     big = 1+n*maxWeight
     #                           --- B = graphe complet, inverser signe poids
-    B = [[(-big if M[u][v]==None else -M[u][v]) for v in range(n)] for u in range(n)]
+    B = [[(-big if M[u][v]==Empty else -M[u][v]) for v in range(n)] for u in range(n)]
     Mout,Min,val = maxWeightMatching(B)
     #                           --- enlever du couplage les arcs de poids big
     for u in range(n):
         v = Mout[u]
-        if M[u][v]==None:
+        if M[u][v]==Empty:
             del Mout[u]
             del Min[v]
     #                           --- extraire les chemins
