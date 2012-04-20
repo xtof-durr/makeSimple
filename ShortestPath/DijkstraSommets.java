@@ -1,5 +1,8 @@
 /* c.durr - ecole polytechnique - 2012
    Plus courts chemins par Dijkstra
+   a besoin que les poids des arcs soient non-negatifs.
+   complexité O((n + m) log n)
+
    format entrée: 
    nombre de sommets <n> nombre d'aretes <m> 
    puis pour chacun des m aretes

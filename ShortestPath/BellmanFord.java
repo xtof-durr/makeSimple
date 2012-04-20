@@ -1,5 +1,10 @@
 import java.util.*;
 
+/* plus courts chemins pour source unique 
+   en temps O(n*m) par BellmanFord.
+   détecte les cycles négatifs atteignables de la source.
+*/
+
 class BellmanFord {
     int E[][]; // la liste d'adjacence
     int w[][]; // poids des arcs

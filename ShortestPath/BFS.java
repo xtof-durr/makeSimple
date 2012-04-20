@@ -1,5 +1,8 @@
 import java.util.*;
 
+/* plus courts chemins dans graphe non-pondéré
+   en temps O(m) par parcours en profondeur
+*/
 class BFS {
     //snip{
     int E[][]; // la liste d'adjacence
