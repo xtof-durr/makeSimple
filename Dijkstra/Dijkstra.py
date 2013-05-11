@@ -31,18 +31,18 @@ def Dijkstra(G, w, source, target=None):
 
 
 # ------------ test
+if __name__ == '__main__':
+    # example from http://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif
+    edges = [(1,2,7), (1,3,9), (1,6,14), (2,3,10), (2,4,15), (3,4,11), (3,6,2), (4,5,6), (5,6,9)]
+    V = range(6)
+    G = [[] for u in V]
+    w = [[INF for u in V] for v in V]
 
-# same example in http://upload.wikimedia.org/wikipedia/commons/5/57/Dijkstra_Animation.gif
-edges = [(1,2,7), (1,3,9), (1,6,14), (2,3,10), (2,4,15), (3,4,11), (3,6,2), (4,5,6), (5,6,9)]
-V = range(6)
-G = [[] for u in V]
-w = [[INF for u in V] for v in V]
+    for u,v,wuv in edges:
+        u -= 1
+        v -= 1
+        G[u].append(v)
+        G[v].append(u)
+        w[u][v] = w[v][u] = wuv
 
-for u,v,wuv in edges:
-    u -= 1
-    v -= 1
-    G[u].append(v)
-    G[v].append(u)
-    w[u][v] = w[v][u] = wuv
-
-print Dijkstra(G, w, 0, 4)
+    print Dijkstra(G, w, 0, 4)

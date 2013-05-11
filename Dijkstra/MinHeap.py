@@ -21,27 +21,27 @@ class minHeap:
             s.heap[i] = s.heap[i/2] 
             s.rank[s.heap[i]]=i
             i/=2
-        s.heap[i]=x
+        s.heap[i]=x   # --- found insertion point
         s.rank[x]=i
 
-    def down(s, p):
+    def down(s, x):
         """la valeur s.prio[p] vient d'augmenter. Maintenir l'invariant du tas"""
         i = s.rank[p]
         while True:
             left = 2*i
             right= left+1
-            if right<=s.n and s.prio[s.heap[right]] < s.prio[p] \
-                          and s.prio[s.heap[right]]   < s.prio[s.heap[left]]:
+            if right<=s.n and s.prio[s.heap[right]] < s.prio[x] \
+                          and s.prio[s.heap[right]] < s.prio[s.heap[left]]:
                 s.heap[i] = s.heap[right]
                 s.rank[s.heap[i]] = i
                 i = right
-            elif left<=s.n and s.prio[s.heap[left]] < s.prio[p]:
+            elif left<=s.n and s.prio[s.heap[left]] < s.prio[x]:
                 s.heap[i] = s.heap[left]
                 s.rank[s.heap[i]]=i
                 i = left
             else:
-                s.heap[i] = p  # --- found insertion point
-                s.rank[p] = i
+                s.heap[i] = x  # --- found insertion point
+                s.rank[x] = i
                 return
     
     def push(s, x):
