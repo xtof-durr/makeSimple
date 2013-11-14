@@ -3,7 +3,8 @@
 # ecole polytechnique - modal prog. eff. - c.durr - 2013
 
 # Dijkstra - plus court chemins
-# complexité (|V| log |V| + |E|)
+# complexité (|V| +  |E| log |V|)
+# pour (|V|log|V|+|E|) il faudrait utiliser les tas de Fibonacci
 
 from MinHeap import minHeap
 
