@@ -9,10 +9,10 @@
        n = number of vertices on each side
        U,V vertex sets
        lu,lv are the labels of U and V resp.
-       the matching is encoded as 
-       - a mapping Mu from U to V, 
+       the matching is encoded as
+       - a mapping Mu from U to V,
        - and Mv from V to U.
-    
+
     The algorithm repeatedly builds an alternating tree, rooted in a
     free vertex u0. S is the set of vertices in U covered by the tree.
     For every vertex v, T[v] is the parent in the tree and Mv[v] the
@@ -30,7 +30,7 @@
     """
 
 def improveLabels(val):
-    """ change the labels, and maintain minSlack. 
+    """ change the labels, and maintain minSlack.
     """
     for u in S:
         lu[u] -= val
@@ -41,7 +41,7 @@ def improveLabels(val):
             minSlack[v][0] -= val
 
 def improveMatching(v):
-    """ apply the alternating path from v to the root in the tree. 
+    """ apply the alternating path from v to the root in the tree.
     """
     u = T[v]
     if u in Mu:
@@ -59,15 +59,15 @@ def augment():
         ((val, u), v) = min([(minSlack[v], v) for v in V if v not in T])
         assert u in S
         assert val>=0
-        if val>0:        
+        if val>0:
             improveLabels(val)
         # now we are sure that (u,v) is saturated
-        assert slack(u,v)==0
+        assert abs(slack(u,v)) < 1e-6       # test zero slack with tolerance
         T[v] = u                            # add (u,v) to the tree
         if v in Mv:
-            u1 = Mv[v]                      # matched edge, 
+            u1 = Mv[v]                      # matched edge,
             assert not u1 in S
-            S[u1] = True                    # ... add endpoint to tree 
+            S[u1] = True                    # ... add endpoint to tree
             for v in V:                     # maintain minSlack
                 if not v in T and minSlack[v][0] > slack(u1,v):
                     minSlack[v] = [slack(u1,v), u1]
@@ -98,8 +98,8 @@ def maxWeightMatching(weights):
     #                                    val. of matching is total edge weight
     val = sum(lu)+sum(lv)
     return (Mu, Mv, val)
-  
-#  a small example 
+
+#  a small example
 
 #print maxWeightMatching([[1,2,3,4],[2,4,6,8],[3,6,9,12],[4,8,12,16]])
 
@@ -112,4 +112,9 @@ if __name__=='__main__':
     # for _ in range(n*n):
     #     u,v,w[u][v] = map(int, raw_input().split())
     # print maxWeightMatching(w)
-    print maxWeightMatching([[-31, -3, -2, -31, -31], [-31, -31, -2, -4, -31], [-31, -31, -31, -1, -5], [-31, -31, -31, -31, -6], [-31, -31, -31, -31, -31]])
+    # print maxWeightMatching([[-31, -3, -2, -31, -31], [-31, -31, -2, -4, -31], [-31, -31, -31, -1, -5], [-31, -31, -31, -31, -6], [-31, -31, -31, -31, -31]])
+    print maxWeightMatching([[  7,  53, 183, 439, 863],
+                        [497, 383, 563,  79, 973],
+                        [287,  63, 343, 169, 583],
+                        [627, 343, 773, 959, 943],
+                        [767, 473, 103, 699, 303]])
