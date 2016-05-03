@@ -29,6 +29,8 @@
     updating of minSlack costs O(n).
     """
 
+TOLERANCE = 1e-6  # everything below is considered zero
+
 def improveLabels(val):
     """ change the labels, and maintain minSlack.
     """
@@ -58,11 +60,11 @@ def augment():
         # select edge (u,v) with u in S, v not in T and min slack
         ((val, u), v) = min([(minSlack[v], v) for v in V if v not in T])
         assert u in S
-        assert val>=0
-        if val>0:
+        assert val > - TOLERANCE
+        if val > TOLERANCE:
             improveLabels(val)
         # now we are sure that (u,v) is saturated
-        assert abs(slack(u,v)) < 1e-6       # test zero slack with tolerance
+        assert abs(slack(u,v)) < TOLERANCE  # test zero slack with tolerance
         T[v] = u                            # add (u,v) to the tree
         if v in Mv:
             u1 = Mv[v]                      # matched edge,
